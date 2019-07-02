@@ -3,176 +3,257 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AwesomeCalculator;
+using NUnit.Framework;
 
-namespace AwesomeCalculator
+
+namespace CalcAppTest
+
 {
-    class Program
-
+    [TestFixture]
+    class CalcTests
     {
-        public static int ValidateMenuSelection()
+        [Test]
+        public void GetAddition_Input3point4and5point6_Returns9point0()
         {
-            string userInput = "";
-            bool validMenuSelect = false;
 
-            while (validMenuSelect == false)
-            {
-                Console.WriteLine("1 = Get First Number");
-                Console.WriteLine("2 = Change First Number");
-                Console.WriteLine("3 = Get Second Number");
-                Console.WriteLine("4 = Change Second Number");
-                Console.WriteLine("5 = Perform Addition");
-                Console.WriteLine("6 = Perform Subtraction");
-                Console.WriteLine("7 = Perform Multiplication");
-                Console.WriteLine("8 = Perform Division");
-                Console.WriteLine("9 = Exit\n");
+            //Arrange
+            double number1 = 3.4;
+            double number2 = 5.6;
 
-                Console.WriteLine("Please select an option, by entering a number:\n");
-                userInput = Console.ReadLine();
+            double expectedResult = number1 + number2;
 
-                if (userInput != "1" &&
-                    userInput != "2" &&
-                    userInput != "3" &&
-                    userInput != "4" &&
-                    userInput != "5" &&
-                    userInput != "6" &&
-                    userInput != "7" &&
-                    userInput != "8" &&
-                    userInput != "9")
-                {
-                    Console.WriteLine("That's not a valid menu option, please try again:\n");
-                }
-                else
-                {
-                    validMenuSelect = true;
-                }
-            }
+            Calc testCalc = new Calc(number1, number2);
 
-            Console.WriteLine();
-            return int.Parse(userInput);
+            //Act
+            double actualResult = testCalc.GetAddition();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
         }
 
-        public static double ValidateUserInput(string chosenNumber)
+        [Test]
+        public void GetAddition_Input11point4and15point6_Returns24point0()
         {
-            double aNumber = 1;
-            bool isValid = false;
 
-            while (isValid == false)
-            {
-                Console.WriteLine($"Please enter the {chosenNumber}:");
-                string userInput = Console.ReadLine();
-                Console.WriteLine();
+            //Arrange
+            double number1 = 11.4;
+            double number2 = 15.6;
 
-                bool result = double.TryParse(userInput, out aNumber);
+            double expectedResult = number1 + number2;
 
-                if (result == false)
-                {
-                    Console.WriteLine("That's not a valid input please, please try again.\n");
-                }
+            Calc testCalc = new Calc(number1, number2);
 
-                else
-                {
-                    isValid = true;
-                    Console.WriteLine($"Your {chosenNumber} has been changed to: {aNumber}.\n");
-                }
-            }
+            //Act
+            double actualResult = testCalc.GetAddition();
 
-            return aNumber;
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
         }
 
 
-        static void Main(string[] args)
+        [Test]
+        public void GetAddition_Input23point6and25point6_Returns49point2()
         {
-            Calc c = new Calc();
-            bool validCalcSelect = false;
-            string calcSelection;
-            int selection;
 
-            while (validCalcSelect == false)
-            {
-                Console.WriteLine("1 = Use random numbers between 0 and 501 for your calculation\n");
-                Console.WriteLine("2 = Provide your own numbers\n");
-                Console.WriteLine("Choose a menu item to begin:");
-                calcSelection = Console.ReadLine();
-                Console.WriteLine();
+            //Arrange
+            double number1 = 23.6;
+            double number2 = 25.6;
 
-                if (calcSelection != "1" && calcSelection != "2")
-                {
-                    Console.WriteLine("That's not a valid selection, please try again.\n");
-                }
-                else if (int.Parse(calcSelection) == 1)
-                {
-                    validCalcSelect = true;
-                    Random random = new Random();
-                    double firstNumber;
-                    double secondNumber;
+            double expectedResult = number1 + number2;
 
-                    firstNumber = Math.Round((random.NextDouble() * 500), 2);
-                    secondNumber = Math.Round((random.NextDouble() * 500), 2);
+            Calc testCalc = new Calc(number1, number2);
 
-                    Console.WriteLine($"Your random numbers are {firstNumber} and {secondNumber}.\n");
-                    Calc customCalc = new Calc(firstNumber, secondNumber);
-                    c = customCalc;
+            //Act
+            double actualResult = testCalc.GetAddition();
 
-                }
-                else if (int.Parse(calcSelection) == 2)
-                {
-                    validCalcSelect = true;
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        [Test]
+        public void GetSubtraction_Input10point3and2point3_Returns8point0()
+        {
 
-                    double firstNumber;
-                    double secondNumber;
+            //Arrange
+            double number1 = 10.3;
+            double number2 = 2.3;
 
-                    firstNumber = ValidateUserInput("firstNumber");
-                    secondNumber = ValidateUserInput("secondNumber");
+            double expextedResult = number1 - number2;
 
-                    Console.WriteLine($"Your custom numbers are {firstNumber} and {secondNumber}.\n");
-                    Calc customCalc = new Calc(firstNumber, secondNumber);
-                    c = customCalc;
-                }
-            }
+            Calc testCalc = new Calc(number1, number2);
 
+            //Act
+            double actualResult = testCalc.GetSubtraction();
 
-            selection = ValidateMenuSelection();
-
-            while (selection != 9)
-            {
-                double result;
-
-                switch (selection)
-                {
-                    case 1:
-                        Console.WriteLine($"First Number is: {c.GetFirstNumber()}\n");
-                        break;
-                    case 2:
-                        result = ValidateUserInput("firstNumber");
-                        c.SetFirstNumber(result);
-                        break;
-                    case 3:
-                        Console.WriteLine($"Second Number is: {c.GetSecondNumber()}\n");
-                        break;
-                    case 4:
-                        result = ValidateUserInput("secondNumber");
-                        c.SetSecondNumber(result);
-                        break;
-                    case 5:
-                        Console.WriteLine($"The result of {c.GetFirstNumber()} + {c.GetSecondNumber()} is: {c.GetAddition()}\n");
-                        break;
-                    case 6:
-                        Console.WriteLine($"The result of {c.GetFirstNumber()} - {c.GetSecondNumber()} is: {c.GetSubtraction()}\n");
-                        break;
-                    case 7:
-                        Console.WriteLine($"The result of {c.GetFirstNumber()} * {c.GetSecondNumber()} is: {c.GetMultiplication()}\n");
-                        break;
-                    case 8:
-                        Console.WriteLine($"The result of {c.GetFirstNumber()} / {c.GetSecondNumber()} is: {c.GetDivision()}\n");
-                        break;
-                    default:
-                        break;
-                }
-
-                selection = ValidateMenuSelection();
-
-            }
+            //Assert
+            Assert.AreEqual(expextedResult, actualResult);
 
         }
+
+
+
+        [Test]
+        public void GetSubtraction_Input30point3and20point3_Returns10point0()
+        {
+
+            //Arrange
+            double number1 = 30.3;
+            double number2 = 20.3;
+
+            double expextedResult = number1 - number2;
+
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetSubtraction();
+
+            //Assert
+            Assert.AreEqual(expextedResult, actualResult);
+
+        }
+
+
+
+        [Test]
+        public void GetSubtraction_Input40point8and20point7_Returns20point1()
+        {
+
+            //Arrange
+            double number1 = 10.3;
+            double number2 = 2.3;
+
+            double expextedResult = number1 - number2;
+
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetSubtraction();
+
+            //Assert
+            Assert.AreEqual(expextedResult, actualResult);
+
+        }
+
+
+        [Test]
+        public void GetMultiplication_Input4point2and3point3_Returns13point86()
+        {
+
+            //Arrange
+            double number1 = 4.2;
+            double number2 = 3.3;
+
+            double expectedResult = number1*number2 ;
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetMultiplication();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+
+       
+        }
+
+
+
+        [Test]
+        public void GetMultiplication_Input12point2and3point3_Returns40point26()
+        {
+
+            //Arrange
+            double number1 = 12.2;
+            double number2 = 3.3;
+
+            double expectedResult = number1*number2 ;
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetMultiplication();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+
+
+        }
+
+        [Test]
+        public void GetMultiplication_Input8point2and9point3_Returns76point26()
+        {
+
+            //Arrange
+            double number1 = 8.2;
+            double number2 = 9.3;
+
+            double expectedResult = number1*number2 ;
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetMultiplication();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+
+
+        }
+
+        [Test]
+        public void GetDivision_Input8point6and4point3_Returns2point0()
+        {
+            //Arrange
+
+            double number1 = 8.6;
+            double number2 = 4.3;
+
+            double expectedResult = number1/number2;
+
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetDivision();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public void GetDivision_Input18point6and4point0_Returns4point65()
+        {
+            //Arrange
+
+            double number1 = 18.6;
+            double number2 = 4.0;
+
+            double expectedResult = number1/number2 ;
+
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetDivision();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        [Test]
+        public void GetDivision_Input80point5and25point0_Returns3point22()
+        {
+            //Arrange
+
+            double number1 = 80.5;
+            double number2 = 25.0;
+
+            double expectedResult = number1/number2 ;
+
+            Calc testCalc = new Calc(number1, number2);
+
+            //Act
+            double actualResult = testCalc.GetDivision();
+
+            //Assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+       
+       
+      
     }
 }
